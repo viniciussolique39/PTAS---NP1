@@ -2,89 +2,90 @@ const User = require('../models/User');
 const secret = require('../config/auth.json');
 const jwt = require('jsonwebtoken');
 
-/*
 const createUser = async (req, res) => {
-    const {            } = req.body;
+    const { name, password, email } = req.body;
     await User.create({
-       
-
-
+        name: name,
+        password: password,
+        email: email
     }).then(() => {
-        res.json('         ');
-        console.log('           ');
+        res.json('Cadastro de usuário realizado com sucesso!');
+        console.log('Cadastro de usuário realizado com sucesso!');
     }).catch((erro) => {
-        res.json('             ');
-        console.log(`  : ${erro}`);
+        res.json("Deu erro!");
+        console.log(`Deu erro: ${erro}`);
     })
 }
-const findUsers = async (req, res) => {
-    const     = await User.findAll();
-    try {
-        res.json(    );
-    } catch (error) {
-        res.status(404).json("Ocorreu um erro na busca!");
-    };
+
+const searchUsers = async (req, res) => {
+    const users = await User.findAll()
+       try{
+        res.json(users);
+       }
+       catch(error){
+            res.status(404).json("Deu erro")
+       }
 }
 
-const deleteUser = async (req, res) => {
+
+const deleteUser = async(req, res) =>{
     const id = parseInt(req.params.id);
     try {
         await User.destroy({
-            where: {
-                
+            where:{
+                id:id
             }
-        }).then(() => {
-            res.json("         ");
-        })
-    } catch (error) {
-        res.status(404).json("      ");
-    }
+    }).then(()=>{
+        res.json("Usuário deletado")
+    })
+} catch(error){
+    res.status(404).json("Deu erro!")
 }
-const updateUser = async (req, res) => {
+}
+
+const updateUser = async(req, res) =>{
     const id = parseInt(req.params.id);
-    const {       } = req.body;
+    const { name, password, email } = req.body;
     try {
-        await User.update(
-            {
-               
-            },
-            {
-                where: {
-                    id: id
-                }
-            }
-        ).then(() => {
-            res.json("            ");
-        })
-    } catch (error) {
-        res.status(404).json("                !");
+        await User.update({
+        name: name,
+        password: password,
+        email:email
+    },
+    {
+        where: {
+        id:id
     }
+    }).then(()=>{
+        res.json("Deu erro!")
+    })
 }
-const authenticatedUser = async (req, res) => {
-    const {       } = req.body;
+    catch(error){
+          res.status(404).json("Deu erro!")
+}
+}
+
+const authenticatedUser = async (req, res) =>{
+    const {email, password} = req.body;
     try {
-        const isUserAuthenticated = await User.findOne({
-            where: {
-                
+        const isUserAthenticated = await User.findOne({
+            where:{
+                email: email,
+                password:password
             }
         })
-        const token = jwt.sign({
-            name: 
-            email: 
-        },
-            secret.secret, {
-            expiresIn: 86400,
+        const token = jwt.sign({id:email}, secret.secret, {
+            expiresIn:86400,
         })
         return res.json({
-            name: 
-            email: isUserAuthenticated.email,
+            name: isUserAthenticated.name,
+            email: isUserAthenticated.email,
             token: token
         });
-    } catch (error) {
-        return res.json("");
+    }catch (error){
+        return res.json('Usuário nao encontrado');
     }
 }
 
 
-module.exports = { createUser, findUsers, deleteUser, updateUser, authenticatedUser };
-*/
+module.exports = { createUser, searchUsers, deleteUser, updateUser, authenticatedUser };
