@@ -13,6 +13,17 @@ const port = process.env.PORT || 3003;
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.urlencoded({ extended: false }));
 
+app.use(cookie());
+const routes = require ('./routes/routes');
+app.use(
+    expressJWT({
+        secret: process.env.SECRET,
+        algorithms: ['HS256'],
+        getToken: req => req.cookie.getToken
+    }).unless({
+        path: ["/user/authenticate"]
+    })
+);
 
 const routes = require('./routers/routes');
 
