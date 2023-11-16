@@ -13,7 +13,7 @@ const port = process.env.PORT || 3003;
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.urlencoded({ extended: false }));
 
-app.use(cookie());
+app.use(cookieParser());
 const routes = require ('./routes/routes');
 app.use(
     expressJWT({
