@@ -4,6 +4,9 @@ const cors = require('cors');
 const path = require('path');
 require('dotenv').config();
 
+const { expressjwt: expressJWT } = require("express-jwt");
+const cookieParser = require('cookie-parser');
+
 const app = express();
 const port = process.env.PORT || 3003;
 
