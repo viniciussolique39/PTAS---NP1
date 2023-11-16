@@ -2,15 +2,10 @@ const User = require('../models/User');
 const secret = require('../config/auth.json');
 const bcrypt = require("bcryptjs");
 const jwt = require('jsonwebtoken');
-const bcrypt = require("bcryptjs");
 
 const createUser = async (req, res) => {
     const { name, password, email } = req.body;
-<<<<<<< HEAD
     const newpassword = await bcrypt.hash(password,10);
-=======
-    const newpassword =  await bcrypt.hash(password,10);
->>>>>>> 08d02b2f01e080be6fa35bbec4caf433bfa9249c
     await User.create({
         name: name,
         password: newpassword,
