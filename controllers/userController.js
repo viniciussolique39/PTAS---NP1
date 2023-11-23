@@ -70,20 +70,20 @@ const updateUser = async(req, res) =>{
 const authenticatedUser = async (req, res) =>{
     const {email, password} = req.body;
     try {
-        const isUserAthenticated = await User.findOne({
+        const isUserAuthenticated = await User.findOne({
             where:{
                 email: email,
  
             }
         })
-        const response = await bcrypt.compare(password, isUserAthenticated.password);
+        const response = await bcrypt.compare(password, isUserAuthenticated.password);
         if(response){
         const token = jwt.sign({id:email}, secret.secret, {
             expiresIn:86400,
         })
-        return res.json({
-            name: isUserAthenticated.name,
-            email: isUserAthenticated.email,
+        res.cookie('token', token, {httpOnly: true}).json({
+            name: isUserAuthenticated.name,
+            email: isUserAuthenticated.email,
             token: token
         });
     } else{

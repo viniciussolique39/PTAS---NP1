@@ -3,6 +3,7 @@ const express = require('express');
 const cors = require('cors');
 const path = require('path');
 require('dotenv').config();
+const jwt = require('jsonwebtoken');
 
 const { expressjwt: expressJWT } = require("express-jwt");
 const cookieParser = require('cookie-parser');
@@ -13,8 +14,8 @@ const port = process.env.PORT || 3003;
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.urlencoded({ extended: false }));
 
+
 app.use(cookieParser());
-const routes = require ('./routes/routes');
 app.use(
     expressJWT({
         secret: process.env.SECRET,
@@ -29,8 +30,6 @@ const routes = require('./routers/routes');
 
 app.use(express.json(), routes, cors());
 app.listen(port, () => { console.log(`Run server...${port}`) });
-
-
 
 app.get('/', (req, res) => {
     const filePath = path.join(__dirname, 'views', 'index.html');
