@@ -3,7 +3,7 @@ const express = require('express');
 const cors = require('cors');
 const path = require('path');
 require('dotenv').config();
-const jwt = require('jsonwebtoken');
+
 
 const { expressjwt: expressJWT } = require("express-jwt");
 const cookieParser = require('cookie-parser');
@@ -20,9 +20,9 @@ app.use(
     expressJWT({
         secret: process.env.SECRET,
         algorithms: ['HS256'],
-        getToken: req => req.cookie.getToken
+        getToken: req => req.cookies.getToken
     }).unless({
-        path: ["/user/authenticate"]
+        path: ["/user/authenticated"]
     })
 );
 
